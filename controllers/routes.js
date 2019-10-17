@@ -22,7 +22,7 @@ router.get("/scrape", function(req, res) {
       db.Article.create({ 
         title: $("main article a h1")[i].children[0].data, 
         link: $("main article a h1")[i].parent.attribs.href, 
-        summary: "It's all in the title..."
+        summary: "The title says it all..."
       }, function (err, dbArticle) {
         if (err) throw err;
         console.log(dbArticle);
@@ -32,7 +32,7 @@ router.get("/scrape", function(req, res) {
 
   });
 
-  res.send("Scrape Complete");
+  res.send("Scrape Complete!");
 
 });
 
@@ -48,7 +48,7 @@ router.get("/api/articles", function (req, res) {
 
 });
 
-router.get("/", function (req, res) {
+router.get("/home", function (req, res) {
 
   axios.get("http://localhost:8080/api/articles").then(function(response) {
     // console.log(response);
@@ -59,7 +59,16 @@ router.get("/", function (req, res) {
     res.render("index", { dbArticles });
   }).catch(function(err) {
     res.send(err);
-  })
+  });
+
+});
+
+router.get("/clear", function (req, res) {
+
+  db.Article.remove({}, function (err) {
+    if (err) throw err;
+    res.send("Articles Cleared!");
+  });
 
 });
 

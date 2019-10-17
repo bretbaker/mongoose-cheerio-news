@@ -1,4 +1,9 @@
 #bg-img {
   background-image: url("../images/bg-img-1.jpg");
   text-align: center;
+  height: 400px;
+}
+
+#orange-uh-oh {
+  background-color: orange;
 }

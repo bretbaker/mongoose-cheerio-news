@@ -1,3 +1,4 @@
+{{!-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow">
   <a class="navbar-brand text-white" href="#">Mongo Scraper</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
@@ -7,42 +8,70 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active m-1">
-        <a class="nav-link text-light" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link text-light" href="/home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item m-1">
-        <a class="nav-link text-light" href="#">Saved Articles</a>
+        <a class="nav-link text-light" href="/api/articles">Saved Articles</a>
       </li>
       <li class="nav-item m-1">
-        <button type="button" class="btn btn-danger">Scrape New Articles!</button>
+        <a href="/home">
+          <button id="scrape-btn" type="button" class="btn btn-danger">Scrape New Articles!</button>
+        </a>
       </li>
       <li class="nav-item m-1">
-        <button type="button" class="btn btn-danger">Clear Articles!</button>
+        <a href="/home">
+          <button id="clear-articles" type="button" class="btn btn-danger">Clear Articles!</button>
+        </a>
       </li>
     </ul>
   </div>
 </nav>
 
+{{!-- CENTER JUMBOTRON WITH BG IMG --}}
 <div id="bg-img" class="jumbotron jumbotron-fluid shadow">
-  <div class="container">
+  <div class="container pt-5">
     <h1 class="display-4 text-white text-center font-weight-bold">Mongo Scraper</h1>
     <p class="lead text-white text-center font-weight-bold">The Onion Edition</p>
   </div>
 </div>
 
+{{!-- MAIN CONTENT --}}
+{{!-- IF ARTICLES --}}
 <div>
   {{#each dbArticles}}
     <div class="card m-3 shadow">
       <div class="card-header bg-primary">
         <button type="button" class="btn btn-success float-right">Save Article</button>
-        <a class="text-white" href="{{ link }}" target="_blank"><h4>{{ title }}</h4></a>
+        <a class="text-white" href="{{ link }}" target="_blank">
+          <h4>{{ title }}</h4>
+        </a>
       </div>
-      <div class="card-body">
+      <div class="card-body bg-light">
         <p class="mb-0">{{ summary }}</p>
       </div>
     </div>
   {{/each}}
 </div>
-
+  {{!-- IF NO ARTICLES --}}
+<div id="if-no-arts">
+  <div id="orange-uh-oh" class="m-3 text-center p-3 shadow">
+    <h3 class="text-white">Uh Oh. Looks like we don't have any new articles.</h3>
+  </div>
+  <div class="card m-3 shadow text-center">
+    <div class="card-header bg-primary p-3">
+      <h3 class="text-white">What Would You Like To Do?</h3>
+    </div>
+    <div class="card-body bg-light">
+      <a class="text-primary" href="/home">
+        <h4 id="scrape-link">Try Scraping New Articles</h4>
+      </a>
+      <a class="text-primary" href="#" target="_blank">
+        <h4>Go To Saved Articles</h4>
+      </a>
+    </div>
+  </div>
+</div>
+{{!-- FOOTER --}}
 <footer class="bg-primary mb-0 mt-5">
   <p class="text-white p-3 mb-0">The Onion Mongo Scraper</p>
 </footer>
