@@ -7,3 +7,9 @@
 #orange-uh-oh {
   background-color: orange;
 }
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

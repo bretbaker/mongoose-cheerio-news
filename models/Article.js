@@ -14,7 +14,11 @@ var ArticleSchema = new Schema({
   },
   summary: {
     type: String,
-   required: true
+    required: true
+  },
+  saved: {
+    type: Boolean,
+    required: true
   },
   note: {
     type: Schema.Types.ObjectId,

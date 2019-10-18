@@ -1,10 +1,21 @@
+// SAVE ARTICLES FUNCTION
+const saveArticle = () => {
+  console.log("Article Saved!");
+}
+
 // UH-OH DISPLAY TOGGLE
 let clear = true;
 const dispToggle = () => {
   if (clear === true) {
     document.getElementById("if-no-arts").style = "display: block";
+    document.getElementById("footer").style = "position: absolute";
   } else if (clear === false) {
     document.getElementById("if-no-arts").style = "display: none";
+    document.getElementById("footer").style = "position: relative";
+    let saveArtBtns = document.getElementsByClassName("save-art-btn");
+    Array.from(saveArtBtns).forEach((e) => {
+      e.addEventListener('click', saveArticle, false);
+    });
   }
 }
 window.onload = () => {
