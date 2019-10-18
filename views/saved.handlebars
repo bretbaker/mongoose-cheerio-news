@@ -39,19 +39,18 @@
 {{!-- IF SAVED ARTICLES --}}
 <div>
   {{#each dbArticles}}
-    {{#if saved}}
-      <div class="card m-3 shadow">
-        <div class="card-header bg-primary">
-          <button type="button" class="btn btn-success float-right">Save Article</button>
-          <a class="text-white" href="{{ link }}" target="_blank">
-            <h4>{{ title }}</h4>
-          </a>
-        </div>
-        <div class="card-body bg-light">
-          <p class="mb-0">{{ summary }}</p>
-        </div>
+    <div class="card m-3 shadow">
+      <div class="card-header bg-primary">
+        <button type="button" class="btn btn-success float-right purple-btn">Article Notes</button>
+        <button type="button" class="btn btn-danger float-right mr-3">Delete From Saved</button>
+        <a class="text-white" href="{{ link }}" target="_blank">
+          <h4>{{ title }}</h4>
+        </a>
       </div>
-    {{/if}}
+      <div class="card-body bg-light">
+        <p class="mb-0">{{ summary }}</p>
+      </div>
+    </div>
   {{/each}}
 </div>
 {{!-- IF NO SAVED ARTICLES --}}

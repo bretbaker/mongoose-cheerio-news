@@ -1,38 +1,76 @@
-// SAVE ARTICLES FUNCTION
-const saveArticle = () => {
-  console.log("Article Saved!");
-}
-
 // UH-OH DISPLAY TOGGLE
-let clear = true;
+let startClear = true;
+let saveClear = true;
+let articleTitle;
 const dispToggle = () => {
-  if (clear === true) {
+  if (startClear === true && window.location.href === "http://localhost:8080/home") {
     document.getElementById("if-no-arts").style = "display: block";
     document.getElementById("footer").style = "position: absolute";
-  } else if (clear === false) {
+  } else if (startClear === false && window.location.href === "http://localhost:8080/home") {
     document.getElementById("if-no-arts").style = "display: none";
     document.getElementById("footer").style = "position: relative";
+    let articleTitles = document.getElementsByClassName("article-titles");
+    for (let i = 0; i < articleTitles.length; i++) {
+      articleTitles[i].setAttribute('value', i);
+    };
     let saveArtBtns = document.getElementsByClassName("save-art-btn");
-    Array.from(saveArtBtns).forEach((e) => {
-      e.addEventListener('click', saveArticle, false);
-    });
+    for (let i = 0; i < saveArtBtns.length; i++) {
+      saveArtBtns[i].setAttribute('value', i);
+      saveArtBtns[i].addEventListener('click', () => {
+        articleTitle = articleTitles[i].innerHTML;
+        console.log(articleTitle);
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(articleTitle);
+          }
+        };
+        xhttp.open("GET", "/api/saved/" + articleTitle, true);
+        xhttp.send();
+      }, false);
+    };
+  } else if (saveClear === true && window.location.href === "http://localhost:8080/saved") {
+    document.getElementById("if-no-arts").style = "display: block";
+    document.getElementById("footer").style = "position: absolute";
+  } else if (saveClear === false && window.location.href === "http://localhost:8080/saved") {
+    document.getElementById("if-no-arts").style = "display: none";
+    document.getElementById("footer").style = "position: relative";
   }
+  
 }
 window.onload = () => {
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(xhttp.response);
-      if (xhttp.response == "[]") {
-        clear = true;
-      } else {
-        clear = false;
+  if (window.location.href === "http://localhost:8080/home") {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(xhttp.response);
+        if (xhttp.response == "[]") {
+          startClear = true;
+        } else {
+          startClear = false;
+        }
+        dispToggle();
       }
-      dispToggle();
-    }
-  };
-  xhttp.open("GET", "/api/articles", true);
-  xhttp.send();
+    };
+    xhttp.open("GET", "/api/articles", true);
+    xhttp.send();
+  } else if (window.location.href === "http://localhost:8080/saved") {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(xhttp.response);
+        if (xhttp.response == "[]") {
+          saveClear = true;
+        } else {
+          saveClear = false;
+        }
+        dispToggle();
+      }
+    };
+    xhttp.open("GET", "/api/savedarticles", true);
+    xhttp.send();
+  }
+  
 }
 
 // SCRAPE FUNCTION
@@ -77,4 +115,3 @@ document.getElementById("clear-articles").onclick = () => {
   clearArticles();
   dispToggle();
 };
-

@@ -2,9 +2,13 @@ var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+const app = express();
 var router = express.Router();
 
 var db = require("../models");
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // SCRAPE ROUTE
 router.get("/scrape", function(req, res) {
@@ -41,7 +45,20 @@ router.get("/scrape", function(req, res) {
 // API ARTICLES ROUTE
 router.get("/api/articles", function (req, res) {
 
-  db.Article.find({})
+  db.Article.find({ saved: false })
+    .then(function (dbArticles) {
+      res.json(dbArticles);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+
+});
+
+// API SAVED ARTICLES ROUTE
+router.get("/api/savedarticles", function (req, res) {
+
+  db.Article.find({ saved: true })
     .then(function (dbArticles) {
       res.json(dbArticles);
     })
@@ -69,12 +86,29 @@ router.get("/home", function (req, res) {
 
 });
 
+// ROUTE FOR UPDATING DB WHEN ARTICLE IS SAVED
+router.get("/api/saved/:title", function (req, res) {
+
+  db.Article.findOneAndUpdate({ 
+    title: req.params.title,
+   },{
+     saved: true
+   })
+    .then(function (dbArticle) {
+      console.log(dbArticle);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+
+});
+
 // SAVED ARTICLES PAGE ROUTE
 router.get("/saved", function (req, res) {
 
   // if using localhost, url = http://localhost:8080/api/articles
   // if deployed, url = ...
-  axios.get("http://localhost:8080/api/articles").then(function (response) {
+  axios.get("http://localhost:8080/api/savedarticles").then(function (response) {
     // console.log(response);
     let dbArticles = response.data;
     // res.json(response.data);
