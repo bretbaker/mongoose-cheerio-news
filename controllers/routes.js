@@ -74,7 +74,7 @@ router.get("/api/savedarticles", function (req, res) {
 });
 
 // HOME PAGE ROUTE
-router.get("/home", function (req, res) {
+router.get("/", function (req, res) {
 
   // if using localhost, url = http://localhost:8080/api/articles
   // if deployed, url = https://mongoose-cheerio-news.herokuapp.com/

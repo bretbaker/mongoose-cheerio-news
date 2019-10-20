@@ -8,10 +8,10 @@ let startClear = true;
 let saveClear = true;
 let articleTitle;
 const dispToggle = () => {
-  if (startClear === true && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
+  if (startClear === true && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/") {
     document.getElementById("if-no-arts").style = "display: block";
     document.getElementById("footer").style = "position: absolute";
-  } else if (startClear === false && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
+  } else if (startClear === false && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/") {
     document.getElementById("if-no-arts").style = "display: none";
     document.getElementById("footer").style = "position: relative";
     let articleTitles = document.getElementsByClassName("article-titles");
@@ -80,7 +80,7 @@ const dispToggle = () => {
 
 // WINDOW ONLOAD FUNCTION
 window.onload = () => {
-  if (window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
+  if (window.location.href === "https://mongoose-cheerio-news.herokuapp.com/") {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
