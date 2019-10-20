@@ -1,11 +1,19 @@
+body {
+  background-image: url("../images/white-waves.png");
+}
+
 .purple-btn {
   background-color: purple;;
+}
+
+#save-note-btn {
+  background-color: green;
 }
 
 #bg-img {
   background-image: url("../images/bg-img-1.jpg");
   text-align: center;
-  height: 400px;
+  height: 300px;
 }
 
 #orange-uh-oh {

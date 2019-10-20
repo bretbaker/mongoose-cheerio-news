@@ -1,3 +1,8 @@
+// ==============================================================================================
+// ! ! ! ! ! ! I M P O R T A N T ! ! ! ! ! ! !
+// IF ON LOCAL HOST USE URL: http://localhost:8080/
+// IF DEPLOYED USE URL: https://mongoose-cheerio-news.herokuapp.com/
+
 var express = require("express");
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -72,8 +77,8 @@ router.get("/api/savedarticles", function (req, res) {
 router.get("/home", function (req, res) {
 
   // if using localhost, url = http://localhost:8080/api/articles
-  // if deployed, url = ...
-  axios.get("http://localhost:8080/api/articles").then(function(response) {
+  // if deployed, url = https://mongoose-cheerio-news.herokuapp.com/
+  axios.get("https://mongoose-cheerio-news.herokuapp.com/api/articles").then(function(response) {
     // console.log(response);
     let dbArticles = response.data;
     // res.json(response.data);
@@ -103,12 +108,30 @@ router.get("/api/saved/:title", function (req, res) {
 
 });
 
+// ROUTE FOR UPDATING DB WHEN ARTICLE IS UNSAVED
+router.get("/api/unsaved/:title", function (req, res) {
+
+  db.Article.findOneAndUpdate({
+    title: req.params.title,
+  }, {
+    saved: false
+  })
+    .then(function (dbArticle) {
+      console.log(dbArticle);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+
+});
+
+
 // SAVED ARTICLES PAGE ROUTE
 router.get("/saved", function (req, res) {
 
   // if using localhost, url = http://localhost:8080/api/articles
-  // if deployed, url = ...
-  axios.get("http://localhost:8080/api/savedarticles").then(function (response) {
+  // if deployed, url = https://mongoose-cheerio-news.herokuapp.com/
+  axios.get("https://mongoose-cheerio-news.herokuapp.com/api/savedarticles").then(function (response) {
     // console.log(response);
     let dbArticles = response.data;
     // res.json(response.data);

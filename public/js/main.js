@@ -1,12 +1,17 @@
+// ==============================================================================================
+// ! ! ! ! ! ! I M P O R T A N T ! ! ! ! ! ! !
+// IF ON LOCAL HOST USE URL: http://localhost:8080/
+// IF DEPLOYED USE URL: https://mongoose-cheerio-news.herokuapp.com/
+
 // UH-OH DISPLAY TOGGLE
 let startClear = true;
 let saveClear = true;
 let articleTitle;
 const dispToggle = () => {
-  if (startClear === true && window.location.href === "http://localhost:8080/home") {
+  if (startClear === true && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
     document.getElementById("if-no-arts").style = "display: block";
     document.getElementById("footer").style = "position: absolute";
-  } else if (startClear === false && window.location.href === "http://localhost:8080/home") {
+  } else if (startClear === false && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
     document.getElementById("if-no-arts").style = "display: none";
     document.getElementById("footer").style = "position: relative";
     let articleTitles = document.getElementsByClassName("article-titles");
@@ -18,7 +23,7 @@ const dispToggle = () => {
       saveArtBtns[i].setAttribute('value', i);
       saveArtBtns[i].addEventListener('click', () => {
         articleTitle = articleTitles[i].innerHTML;
-        console.log(articleTitle);
+        alert("Article saved! Refresh the page!");
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
           if (this.readyState == 4 && this.status == 200) {
@@ -29,17 +34,53 @@ const dispToggle = () => {
         xhttp.send();
       }, false);
     };
-  } else if (saveClear === true && window.location.href === "http://localhost:8080/saved") {
+  } else if (saveClear === true && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/saved") {
     document.getElementById("if-no-arts").style = "display: block";
     document.getElementById("footer").style = "position: absolute";
-  } else if (saveClear === false && window.location.href === "http://localhost:8080/saved") {
+  } else if (saveClear === false && window.location.href === "https://mongoose-cheerio-news.herokuapp.com/saved") {
     document.getElementById("if-no-arts").style = "display: none";
     document.getElementById("footer").style = "position: relative";
-  }
-  
-}
+    let articleTitles = document.getElementsByClassName("article-titles");
+    for (let i = 0; i < articleTitles.length; i++) {
+      articleTitles[i].setAttribute('value', i);
+    };
+    let unsaveArtBtns = document.getElementsByClassName("delete-saved-button");
+    for (let i = 0; i < unsaveArtBtns.length; i++) {
+      unsaveArtBtns[i].setAttribute('value', i);
+      unsaveArtBtns[i].addEventListener('click', () => {
+        articleTitle = articleTitles[i].innerHTML;
+        alert("Article removed from saved! Refresh the page!");
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(articleTitle);
+          }
+        };
+        xhttp.open("GET", "/api/unsaved/" + articleTitle, true);
+        xhttp.send();
+      }, false);
+    };
+    // let noteButtons = document.getElementsByClassName("note-button");
+    // for (let i = 0; i < noteButtons.length; i++) {
+    //   noteButtons[i].setAttribute('value', i);
+    //   noteButtons[i].addEventListener('click', () => {
+    //     articleTitle = articleTitles[i].innerHTML;
+    //     let xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function () {
+    //       if (this.readyState == 4 && this.status == 200) {
+    //         console.log(articleTitle);
+    //       }
+    //     };
+    //     xhttp.open("GET", "/api/notes/" + articleTitle, true);
+    //     xhttp.send();
+    //   }, false);
+    // };
+  } 
+};
+
+// WINDOW ONLOAD FUNCTION
 window.onload = () => {
-  if (window.location.href === "http://localhost:8080/home") {
+  if (window.location.href === "https://mongoose-cheerio-news.herokuapp.com/home") {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -54,7 +95,7 @@ window.onload = () => {
     };
     xhttp.open("GET", "/api/articles", true);
     xhttp.send();
-  } else if (window.location.href === "http://localhost:8080/saved") {
+  } else if (window.location.href === "https://mongoose-cheerio-news.herokuapp.com/saved") {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -96,6 +137,11 @@ const clearArticles = () => {
   xhttp.open("GET", "/clear", true);
   xhttp.send();
 };
+
+// UNSAVE ARTICLE FUNCTION
+// const unsave = () => {
+  
+// }
 
 // HTTP REQUEST TO SCRAPE NEW ARTICLES ONCLICK SCRAPE BUTTON
 document.getElementById("scrape-btn").onclick = () => {
